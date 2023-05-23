@@ -1,0 +1,42 @@
+
+version: 2
+
+models:
+  - name: customers
+    description: "Another simple model"
+    columns:
+      - name: customer_id
+        description: "The primary key for this table"
+      - name: customer_lifetime_value
+        description: "The primary key for this table"
+
+sources:
+  - name: shop
+    database: dbt_intro
+    schema: dbt_intro
+    tables:
+      - name: stg_customers
+        description: "Another simple model"
+        columns:
+          - name: customer_id
+            description: "The primary key for this table"
+          - name: first_name
+            description: "the primary key for this table"
+          - name: last_name
+            description: "the primary key for this table"
+      - name: stg_orders
+        description: "Another simple model"
+        columns:
+          - name: order_id
+            description: "The primary key for this table"
+          - name: customer_id
+            description: "The primary key for this table"
+          - name: order_date
+            description: "The primary key for this table"
+      - name: stg_payments
+        description: "Another simple model"
+        columns:
+          - name: order_id
+            description: "The primary key for this table"
+          - name: amount
+            description: "The primary key for this table"

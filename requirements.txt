@@ -1,0 +1,7 @@
+dbt-core~=1.5.0
+dbt-snowflake~=1.5.0
+sqlalchemy~=1.4.48
+snowflake-sqlalchemy~=1.4.7
+alembic~=1.11.1
+PyYAML~=6.0
+jinja2~=3.1.2
