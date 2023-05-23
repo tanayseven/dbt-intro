@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, text
+from sqlalchemy import Column, text, PrimaryKeyConstraint
 from snowflake.sqlalchemy import NUMBER, TEXT, DEC
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -10,9 +10,9 @@ Base = declarative_base()
 class Credits(Base):
     __tablename__ = "credits_raw"
 
-    id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=True)
     cast = Column(TEXT)
     crew = Column(TEXT)
+    id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=True)
 
 
 class Keywords(Base):
@@ -28,16 +28,6 @@ class Links(Base):
     movie_id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=False)
     imdb_id = Column(TEXT)
     tmdb_id = Column(TEXT)
-
-
-class Ratings(Base):
-    __tablename__ = "ratings_raw"
-
-    id = Column(TEXT, nullable=False, primary_key=True, autoincrement=False, server_default=text('UUID_STRING()'))
-    user_id = Column(NUMBER)
-    movie_id = Column(NUMBER)
-    rating = Column(DEC)
-    timestamp = Column(NUMBER)
 
 
 class MovieMetadata(Base):
@@ -67,3 +57,17 @@ class MovieMetadata(Base):
     video = Column(TEXT)
     vote_average = Column(TEXT)
     vote_count = Column(TEXT)
+
+
+class Ratings(Base):
+    __tablename__ = "ratings_raw"
+
+    user_id = Column(NUMBER)
+    movie_id = Column(NUMBER)
+    rating = Column(DEC)
+    timestamp = Column(NUMBER)
+    __table_args__ = (
+        PrimaryKeyConstraint(
+            user_id, movie_id
+        ),
+    )
