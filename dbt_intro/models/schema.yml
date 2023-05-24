@@ -11,19 +11,37 @@ models:
         description: "The primary key for this table"
 
 sources:
-  - name: shop
-    database: dbt_intro
-    schema: dbt_intro
+  - name: movies
+    database: intro
+    schema: intro
     tables:
-      - name: stg_customers
-        description: "Another simple model"
+      - name: movie_metadata_raw
+        description: "Metadata of the movies"
         columns:
-          - name: customer_id
-            description: "The primary key for this table"
-          - name: first_name
-            description: "the primary key for this table"
-          - name: last_name
-            description: "the primary key for this table"
+          - name: adult
+          - name: belongs_to_collection
+          - name: budget
+          - name: genres
+          - name: homepage
+          - name: id
+          - name: imdb_id
+          - name: original_language
+          - name: original_title
+          - name: overview
+          - name: popularity
+          - name: poster_path
+          - name: production_companies
+          - name: production_countries
+          - name: release_date
+          - name: revenue
+          - name: runtime
+          - name: spoken_languages
+          - name: status
+          - name: tagline
+          - name: title
+          - name: video
+          - name: vote_average
+          - name: vote_count
       - name: stg_orders
         description: "Another simple model"
         columns:

@@ -12,7 +12,7 @@ class Credits(Base):
 
     cast = Column(TEXT)
     crew = Column(TEXT)
-    id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=True)
+    id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=False)
 
 
 class Keywords(Base):
@@ -33,12 +33,13 @@ class Links(Base):
 class MovieMetadata(Base):
     __tablename__ = "movie_metadata_raw"
 
+    uid = Column(NUMBER, nullable=False, primary_key=True, autoincrement=False)
     adult = Column(TEXT)
     belongs_to_collection = Column(TEXT)
     budget = Column(TEXT)
     genres = Column(TEXT)
     homepage = Column(TEXT)
-    id = Column(NUMBER, nullable=False, primary_key=True, autoincrement=False)
+    id = Column(NUMBER)
     imdb_id = Column(TEXT)
     original_language = Column(TEXT)
     original_title = Column(TEXT)
