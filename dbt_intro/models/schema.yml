@@ -2,13 +2,10 @@
 version: 2
 
 models:
-  - name: customers
-    description: "Another simple model"
+  - name: genres
     columns:
-      - name: customer_id
-        description: "The primary key for this table"
-      - name: customer_lifetime_value
-        description: "The primary key for this table"
+      - name: name
+      - name: id
 
 sources:
   - name: movies
@@ -16,7 +13,6 @@ sources:
     schema: intro
     tables:
       - name: movie_metadata_raw
-        description: "Metadata of the movies"
         columns:
           - name: adult
           - name: belongs_to_collection
@@ -42,19 +38,23 @@ sources:
           - name: video
           - name: vote_average
           - name: vote_count
-      - name: stg_orders
-        description: "Another simple model"
+      - name: credits_raw
         columns:
-          - name: order_id
-            description: "The primary key for this table"
-          - name: customer_id
-            description: "The primary key for this table"
-          - name: order_date
-            description: "The primary key for this table"
-      - name: stg_payments
-        description: "Another simple model"
+          - name: cast
+          - name: crew
+          - name: id
+      - name: keywords_raw
         columns:
-          - name: order_id
-            description: "The primary key for this table"
-          - name: amount
-            description: "The primary key for this table"
+          - name: id
+          - name: keywords
+      - name: links_raw
+        columns:
+          - name: movie_id
+          - name: imdb_id
+          - name: tmdb_id
+      - name: ratings_raw
+        columns:
+          - name: user_id
+          - name: movie_id
+          - name: rating
+          - name: timestamp
