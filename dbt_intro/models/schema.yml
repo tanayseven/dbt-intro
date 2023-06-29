@@ -10,7 +10,7 @@ models:
 sources:
   - name: movies
     database: intro
-    schema: intro
+    schema: target
     tables:
       - name: movie_metadata_raw
         columns:

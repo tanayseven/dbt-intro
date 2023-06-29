@@ -1,3 +1,4 @@
+# Data Engineering
 dbt-core~=1.5.0
 dbt-snowflake~=1.5.0
 sqlalchemy~=1.4.48
@@ -5,3 +6,16 @@ snowflake-sqlalchemy~=1.4.7
 alembic~=1.11.1
 PyYAML~=6.0
 jinja2~=3.1.2
+
+# Machine Learning
+numpy~=1.24.3
+# pandas~=2.0.2
+scikit-surprise~=1.1.3
+seaborn~=0.12.2
+plotly~=5.15.0
+scikit-learn~=1.2.2
+
+# Misc
+tqdm~=4.65.0
+
+snowflake-connector-python[pandas]
