@@ -5,7 +5,7 @@ create or replace file format movie_file_load_format
 
 create or replace stage credits_stage
     file_format = movie_file_load_format
-    url = 's3://tanayseven-dbt-intro/credits.csv';
+    url = 's3://tanayseven-dbt-intro/credits_small.csv';
 copy into credits_raw
     from @credits_stage;
 

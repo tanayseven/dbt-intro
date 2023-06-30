@@ -1,5 +1,6 @@
 {{ config(
     materialized='view',
+    database='intro',
     schema='target',
 ) }}
 

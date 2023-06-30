@@ -1,15 +1,14 @@
-import os
+import pickle
 from pathlib import Path
 
 import pandas as pd
+import snowflake.connector
 from surprise import Dataset, Reader
 from surprise.prediction_algorithms.matrix_factorization import SVD
-import snowflake.connector
 
-from recommendation_system.common import get_recommendations, get_snowflake_vars
+from recommendation_system.common import get_recommendations, get_snowflake_vars, get_recommendations_without_movie
 
 movies_db_path = Path.home() / 'Downloads' / 'movies_dataset'
-
 
 sf_vars = get_snowflake_vars()
 
@@ -21,57 +20,61 @@ ctx = snowflake.connector.connect(
     schema=sf_vars['schema'],
 )
 cs = ctx.cursor()
+print("Loading ratings...")
+if not (Path.cwd() / "ratings.pickle").exists():
+    sql = 'select * from intro.intro.ratings_raw;'
+    cs.execute(sql)
+    ratings = cs.fetch_pandas_all()
+    pd.to_pickle(ratings, "./ratings.pickle")
+else:
+    ratings = pd.read_pickle("./ratings.pickle")
 
-sql = 'select * from intro.intro.ratings_raw;'
-cs.execute(sql)
-ratings = cs.fetch_pandas_all()
+print("Loading movies...")
+if not (Path.cwd() / "movies_md.pickle").exists():
+    sql = 'select * from intro.intro_target.movies_filtered_data;'
+    cs.execute(sql)
+    movie_md = cs.fetch_pandas_all()
+    pd.to_pickle(movie_md, "./movie_md.pickle")
+else:
+    movie_md = pd.read_pickle("./movie_md.pickle")
 
-sql = 'select * from intro.intro.movie_metadata_raw;'
-cs.execute(sql)
-movie_md = cs.fetch_pandas_all()
-
-print(ratings.head())
-
-movie_md = movie_md[int(movie_md['VOTE_COUNT']) > 55][['id', 'title']]
-
-# IDs of movies with count more than 55
-movie_ids = [int(x) for x in movie_md['id'].values]
-
-# Select ratings of movies with more than 55 counts
-ratings = ratings[ratings['movieId'].isin(movie_ids)]
-
-# Reset Index
-ratings.reset_index(inplace=True, drop=True)
-
-# Print first 5 rows
-print()
-print()
-print(ratings.head())
-
-# Print shape
-print()
-print()
-print(f"Shape: {ratings.shape}")
+# TODO move this to DBT
+movie_md = movie_md[movie_md['VOTE_COUNT'] > 55][['ID', 'TITLE']]
 
 # Initialize a surprise reader object
 reader = Reader(line_format='user item rating', sep=',', rating_scale=(0, 5), skip_lines=1)
 
 # Load the data
-data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader=reader)
+data = Dataset.load_from_df(ratings[['USER_ID', 'MOVIE_ID', 'RATING']], reader=reader)
+# print("Data set to train the model on")
+# print(data.df.head())
 
 # Build trainset object(perform this only when you are using whole dataset to train)
-trainset = data.build_full_trainset()
-print()
-print()
-print(trainset)
+print("Building trainset...")
+trainset_pickle = Path.cwd() / "trainset.pickle"
+if not trainset_pickle.exists():
+    trainset = data.build_full_trainset()
+    with open(trainset_pickle, 'wb') as f:
+        pickle.dump(trainset, f)
+else:
+    with open(str(trainset_pickle), "rb") as f:
+        trainset = pickle.load(f)
 
 # Initialize model
-svd = SVD()
+svd_pickle = Path.cwd() / "svd.pickle"
+if not svd_pickle.exists():
+    svd = SVD()
+    svd.fit(trainset)
+    with open(svd_pickle, 'wb') as f:
+        pickle.dump(svd, f)
+else:
+    with open(str(trainset_pickle), "rb") as f:
+        svd = pickle.load(f)
 
-# cross-validate
-svd.fit(trainset)
+print("Predicting...")
+print(svd.predict(uid=3, iid=2959, r_ui=5.0))
 
-print()
-print()
-print()
-print(get_recommendations(data=ratings, movie_md=movie_md, user_id=1, top_n=10, algo=svd))
+print("Pulling recommendations...")
+# recommendations = get_recommendations_without_movie(data=ratings, user_id=654, top_n=10, algo=svd)
+recommendations = get_recommendations(data=ratings, user_id=654, top_n=10, algo=svd, movie_md=movie_md)
+print(recommendations)
