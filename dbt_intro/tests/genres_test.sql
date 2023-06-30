@@ -12,11 +12,11 @@
   {% endcall %}
 
   {% call dbt_unit_testing.expect() %}
-    genre_detail          | another_value
-    'Drama|18'            | 'another-value'
-    'Action|28'           | 'another-value'
-    'Comedy|35'           | 'another-value'
-    'Crime|80'            | 'another-value'
-    'Science Fiction|878' | 'another-value'
+    genre_detail      | genre_id
+    'Drama'           | 18
+    'Action'          | 28
+    'Comedy'          | 35
+    'Crime'           | 80
+    'Science Fiction' | 878
   {% endcall %}
 {% endcall %}

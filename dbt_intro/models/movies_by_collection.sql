@@ -1,5 +1,6 @@
 {{ config(
     materialized='table',
+    schema='target',
 ) }}
 
 select
