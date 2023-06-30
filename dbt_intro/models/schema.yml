@@ -3,14 +3,16 @@ version: 2
 
 models:
   - name: genres
+    database: movies
+    schema: intro
     columns:
       - name: name
       - name: id
 
 sources:
   - name: movies
-    database: intro
-    schema: intro
+    database: movies
+    schema: landing
     tables:
       - name: movie_metadata_raw
         columns:

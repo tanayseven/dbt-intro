@@ -1,6 +1,6 @@
 {{ config(
     materialized='view',
-    database='intro',
+    database='movies',
     schema='target',
 ) }}
 

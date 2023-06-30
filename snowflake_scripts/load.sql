@@ -1,3 +1,4 @@
+use database movies; use schema landing;
 create or replace file format movie_file_load_format
     skip_header = 1
     type = 'CSV'
@@ -6,25 +7,25 @@ create or replace file format movie_file_load_format
 create or replace stage credits_stage
     file_format = movie_file_load_format
     url = 's3://tanayseven-dbt-intro/credits_small.csv';
-copy into credits_raw
+copy into movies.landing.credits_raw
     from @credits_stage;
 
 create or replace stage keywords_stage
     file_format = movie_file_load_format
     url = 's3://tanayseven-dbt-intro/keywords.csv';
-copy into keywords_raw
+copy into movies.landing.keywords_raw
     from @keywords_stage;
 
 create or replace stage links_stage
     file_format = movie_file_load_format
     url = 's3://tanayseven-dbt-intro/links.csv';
-copy into links_raw
+copy into movies.landing.links_raw
     from @links_stage;
 
 create or replace stage movie_metadata_stage
     file_format = movie_file_load_format
     url = 's3://tanayseven-dbt-intro/movies_metadata.csv';
-copy into movie_metadata_raw (
+copy into movies.landing.movie_metadata_raw (
         uid,
         adult,
         belongs_to_collection,
@@ -85,5 +86,5 @@ copy into movie_metadata_raw (
 create or replace stage ratings_stage
     file_format = movie_file_load_format
     url = 's3://tanayseven-dbt-intro/ratings.csv';
-copy into ratings_raw
+copy into movies.landing.ratings_raw
     from @ratings_stage;

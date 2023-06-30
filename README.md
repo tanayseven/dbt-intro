@@ -1,5 +1,5 @@
-DBT Intro
-=========
+DBT Movie Recommendation System
+================================
 
 ### Setup
 
@@ -34,6 +34,10 @@ alembic downgrade base
 
 ```shell
 dbt run
+```
+
+```shell
+dbt seed
 ```
 
 ```shell

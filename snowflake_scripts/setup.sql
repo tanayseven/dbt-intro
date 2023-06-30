@@ -1,3 +1,3 @@
-create database intro; use database intro; create schema intro; use schema intro;
-grant all PRIVILEGES on intro to accountadmin;
-grant all PRIVILEGES on intro to orgadmin;
+create database movies; use database movies; create schema landing; use schema landing;
+grant all PRIVILEGES on database movies to accountadmin;
+grant all PRIVILEGES on database movies to orgadmin;
