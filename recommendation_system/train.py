@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 import snowflake.connector
 from sqlalchemy import create_engine
 from snowflake.sqlalchemy import URL
@@ -11,7 +12,7 @@ from surprise.prediction_algorithms.matrix_factorization import SVD
 from recommendation_system.common import get_snowflake_vars
 
 
-def get_recommendations(data, movie_md, user_id, top_n, algo):
+def get_recommendations(data, user_id, top_n, algo):
     recommendations = []
     user_movie_interactions_matrix = data.pivot(index='USER_ID', columns='MOVIE_ID', values='RATING')
     non_interacted_movies = user_movie_interactions_matrix.loc[user_id][
@@ -21,6 +22,7 @@ def get_recommendations(data, movie_md, user_id, top_n, algo):
         est = algo.predict(user_id, item_id).est
         recommendations.append((item_id, user_id, est))
     recommendations.sort(key=lambda x: x[2], reverse=True)
+    recommendations = recommendations[:top_n]
 
     recommendations_dict = {"ITEM_ID": [], "USER_ID": [], "ESTIMATE": []}
     for recommendation in recommendations:
@@ -28,7 +30,8 @@ def get_recommendations(data, movie_md, user_id, top_n, algo):
         recommendations_dict["USER_ID"].append(recommendation[1])
         recommendations_dict["ESTIMATE"].append(recommendation[2])
     df = pd.DataFrame(recommendations_dict)
-    df = df.reset_index(drop=True, inplace=True)
+    # df = df.reset_index(drop=True, inplace=True)
+    # print(df)
     return df
 
 
@@ -64,12 +67,14 @@ trainset = data.build_full_trainset()
 svd = SVD()
 svd.fit(trainset)
 print('Predicting results')
-users = ratings['USER_ID'].unique()[:5]
+users = ratings['USER_ID'].unique()[:20]
 recommendations_df = pd.DataFrame({"ITEM_ID": [], "USER_ID": [], "ESTIMATE": []})
 recommendations_df.reset_index(drop=True, inplace=True)
-for user in users:
-    new_recommendations_df = get_recommendations(data=ratings, user_id=654, top_n=10, algo=svd, movie_md=movie_md)
+for user in tqdm(users):
+    new_recommendations_df = get_recommendations(data=ratings, user_id=654, top_n=10, algo=svd)
     recommendations_df = pd.concat([recommendations_df, new_recommendations_df], ignore_index=True)
+
+print("Saving to DB...")
 engine = create_engine(URL(
     user=sf_vars['user'],
     password=sf_vars['password'],
