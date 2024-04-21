@@ -47,3 +47,17 @@ dbt test
 ```shell
 dbt docs generate && dbt docs serve
 ```
+
+### Airflow on local commands
+
+#### Run Airflow in Docker compose
+
+```shell
+docker-compose up
+```
+
+#### Get the admin password for Airflow
+
+```shell
+docker exec -it dbt-intro-airflow-1 cat standalone_admin_password.txt && echo
+```

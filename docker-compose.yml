@@ -1,0 +1,8 @@
+services:
+  airflow:
+    build: .
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+    command: airflow standalone
+    ports:
+      - "8080:8080"
