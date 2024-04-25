@@ -1,0 +1,14 @@
+config:
+  send_anonymous_usage_stats: false
+dbt_intro:
+  outputs:
+    default-target:
+      type: snowflake
+      account: <account>
+      database: movies
+      schema: landing
+      user: <username>
+      password: <password>
+      query_tag: <query-tag>
+      threads: 6
+  target: default-target

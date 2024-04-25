@@ -1,10 +1,17 @@
+import os
+import sys
 from pathlib import Path
 
 import jinja2
 import yaml
 from yaml import load
 
-yaml_file = (Path.home() / ".dbt" / "profiles.yml").read_text()
+python_path = os.environ.get("PYTHONPATH")
+if not python_path:
+    print("PYTHONPATH not set, please set it and re-run the script.")
+    sys.exit(1)
+yaml_file = (Path(python_path) / "dbt_intro" / "profiles.yml").read_text()
+print(yaml_file)
 dbt_profile = load(yaml_file, yaml.Loader)
 dbt_default_profile = dbt_profile['dbt_intro']['outputs']['default-target']
 alembic_variables = dict(
