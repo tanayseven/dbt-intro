@@ -57,7 +57,7 @@ def get_recommendations_without_movie(data, user_id, top_n, algo):
 
 
 def get_snowflake_vars():
-    yaml_file = (Path.home() / ".dbt" / "profiles.yml").read_text()
+    yaml_file = (Path.cwd() / "dbt_intro" / "profiles.yml").read_text()
     dbt_profile = load(yaml_file, yaml.Loader)
     dbt_default_profile = dbt_profile['dbt_intro']['outputs']['default-target']
     snowflake_variables = dict(

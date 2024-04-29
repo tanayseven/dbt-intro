@@ -61,3 +61,9 @@ docker-compose up
 ```shell
 docker exec -it dbt-intro-airflow-1 cat standalone_admin_password.txt && echo
 ```
+
+## Run recommendation engine and generate recommendations
+
+```shell
+python -m recommendation_system.train
+```
