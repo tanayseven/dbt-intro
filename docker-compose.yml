@@ -5,4 +5,4 @@ services:
       - ./airflow/dags:/opt/airflow/dags
     command: airflow standalone
     ports:
-      - "8080:8080"
+      - "8085:8080"

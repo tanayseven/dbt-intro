@@ -5,3 +5,6 @@ airflow.db
 airflow.cfg
 logs/
 __pycache__/
+profiles.yml
+
+dags/dbt_intro/

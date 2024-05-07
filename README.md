@@ -62,8 +62,14 @@ docker-compose up
 docker exec -it dbt-intro-airflow-1 cat standalone_admin_password.txt && echo
 ```
 
+#### Copy DBT project to DAGs folder
+
+```shell
+cp -r ./dbt_intro/ ./airflow/dags/
+```
+
 ## Run recommendation engine and generate recommendations
 
 ```shell
-python -m recommendation_system.train
+python -m recommendation_system.train # make sure the table is deleted before running this
 ```

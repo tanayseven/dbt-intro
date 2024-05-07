@@ -1,2 +1,4 @@
 apache-airflow-providers-github
 apache-airflow-providers-snowflake
+dbt-core~=1.5.0
+dbt-snowflake~=1.5.0
