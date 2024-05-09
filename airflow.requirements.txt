@@ -1,4 +1,5 @@
 apache-airflow-providers-github
 apache-airflow-providers-snowflake
+snowflake-connector-python
 dbt-core~=1.5.0
 dbt-snowflake~=1.5.0

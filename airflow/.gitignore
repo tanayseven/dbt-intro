@@ -8,3 +8,4 @@ __pycache__/
 profiles.yml
 
 dags/dbt_intro/
+dags/snowflake_creds.json
