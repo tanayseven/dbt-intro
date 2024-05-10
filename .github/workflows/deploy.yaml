@@ -28,7 +28,7 @@ jobs:
           cp -r ./dbt_intro ./dags/
           python populate_config.py --snowflake-account=${{ secrets.SNOWFLAKE_ACCOUNT }} --snowflake-user=${{ secrets.SNOWFLAKE_USER }} --snowflake-password=${{ secrets.SNOWFLAKE_PASSWORD }}
 
-      - name: Deploy website to AWS bucket
+      - name: Deploy DBT to AWS bucket
         run: |
           aws s3 ls s3://airflow-bucket.tanay.tech
           aws s3 sync ./airflow/dags/ s3://airflow-bucket.tanay.tech/dags --delete
