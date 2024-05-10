@@ -25,6 +25,7 @@ jobs:
 
       - name: Create credential files
         run: |
+          ls
           python populate_credentials.py --snowflake-account=${{ secrets.SNOWFLAKE_ACCOUNT }} --snowflake-user=${{ secrets.SNOWFLAKE_USER }} --snowflake-password=${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Deploy website to AWS bucket
