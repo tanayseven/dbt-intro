@@ -23,15 +23,15 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Create credential files
+      - name: Prepare for deploy
         run: |
-          ls
+          cp -r ./dbt_intro ./dags/
           python populate_config.py --snowflake-account=${{ secrets.SNOWFLAKE_ACCOUNT }} --snowflake-user=${{ secrets.SNOWFLAKE_USER }} --snowflake-password=${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Deploy website to AWS bucket
         run: |
           aws s3 ls s3://airflow-bucket.tanay.tech
-          # aws s3 sync _build/html s3://blog.tanay.tech --delete
+          aws s3 sync ./airflow/dags/ s3://airflow-bucket.tanay.tech/dags --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
