@@ -25,13 +25,14 @@ jobs:
 
       - name: Prepare for deploy
         run: |
-          cp -r ./dbt_intro ./dags/
+          cp -r ./dbt_intro ./airflow/dags/
+          cp airflow.requirements.txt ./airflow/requirements.txt
           python populate_config.py --snowflake-account=${{ secrets.SNOWFLAKE_ACCOUNT }} --snowflake-user=${{ secrets.SNOWFLAKE_USER }} --snowflake-password=${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Deploy DBT to AWS bucket
         run: |
           aws s3 ls s3://airflow-bucket.tanay.tech
-          aws s3 sync ./airflow/dags/ s3://airflow-bucket.tanay.tech/dags --delete
+          aws s3 sync ./airflow/ s3://airflow-bucket.tanay.tech/ --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
