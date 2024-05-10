@@ -1,0 +1,12 @@
+
+
+============================== 12:24:50.323823 | 3462360b-60e3-44ab-833d-88a4712f8962 ==============================
+[0m12:24:50.323823 [info ] [MainThread]: Running with dbt=1.5.2
+[0m12:24:50.326661 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'profiles_dir': '/Users/tanayprabhudesai/.dbt', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'send_anonymous_usage_stats': 'False'}
+[0m12:24:50.326982 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/tanayprabhudesai/dbt-intro/alembic/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m12:24:50.327342 [debug] [MainThread]: Command `dbt test` failed at 12:24:50.327283 after 0.02 seconds
+[0m12:24:50.327509 [debug] [MainThread]: Flushing usage events
