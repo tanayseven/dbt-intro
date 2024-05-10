@@ -21,6 +21,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/dbt_intro" />
+        <option value="$MODULE_DIR$/config_templates" />
       </list>
     </option>
   </component>

@@ -1,0 +1,7 @@
+{
+  "account": "{{ snowflake_account }}",
+  "database": "movies",
+  "schema": "landing",
+  "user": "{{ snowflake_user }}",
+  "password": "{{ snowflake_password }}"
+}
